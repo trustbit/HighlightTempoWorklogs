@@ -1,11 +1,34 @@
+// ==UserScript==
+// @name         Tempo Worklog Highlighter
+// @namespace    Violentmonkey Scripts
+// @version      1.2
+// @description  Highlights working logs based on billable seconds and internal or customer
+// @author       (you)
+// @match        *://timetoactgroup.atlassian.net/*
+// @match        https://app.eu.tempo.io/*
+// @run-at       document-start
+// @grant        unsafeWindow
+// @grant        none
+// ==/UserScript==
+
 (function () {
-  // Create global variable to store Tempo worklog data
-  window.tempoWorklogData = null;
+  // region "Variables & Constants"
+
+  // Set highlighting colors
+  const COLOR_BILLABLE_WITH_BILLABLE_SECONDS = "#efffddff"; // Light green background for billable worklogs with billable seconds
+  const COLOR_BILLABLE_NO_BILLABLE_SECONDS = "#fff4ddff"; // Light orange background for billable worklogs without billable seconds
+  const COLOR_INTERNAL = "#FFDDDD"; // Light red background for internal worklogs
+  const COLOR_ERROR = "#ff0000ff"; // Red background for error worklogs
 
   // Check if we're in the Tempo iframe
   const isTempoIframe = window.location.href.includes("app.eu.tempo.io");
 
-  // region "When does the color adjust script execute"
+  // Create global variable to store Tempo worklog data
+  window.tempoWorklogData = [];
+
+  // endregion "Variables & Constants"
+
+  // region "DOM and Navigation Monitoring"
 
   const _push = history.pushState;
   const _replace = history.replaceState;
@@ -75,9 +98,9 @@
     setupObserver();
   }
 
-  // endregion "When does the color adjust script execute"
+  // endregion "DOM and Navigation Monitoring"
 
-  // region "Execution logic"
+  // region "Worklog Processing and Highlighting"
 
   // This runs every time the page changes inside the Tempo iframe
   function onWeekChangedInIframe() {
@@ -97,16 +120,16 @@
           worklogData.attributes._Account_.value.endsWith("SAP_C") &&
           worklogData.billableSeconds > 0
         ) {
-          el.style.backgroundColor = "#efffddff"; // Light green background for matching worklogs
+          el.style.backgroundColor = COLOR_BILLABLE_WITH_BILLABLE_SECONDS;
         } else if (
           worklogData.attributes._Account_.value.endsWith("SAP_C") &&
           worklogData.billableSeconds === 0
         ) {
-          el.style.backgroundColor = "#fff4ddff"; // Light orange background for matching worklogs
+          el.style.backgroundColor = COLOR_BILLABLE_NO_BILLABLE_SECONDS;
         } else if (worklogData.attributes._Account_.value.endsWith("SAP_I")) {
-          el.style.backgroundColor = "#FFDDDD"; // Light red background for matching worklogs
+          el.style.backgroundColor = COLOR_INTERNAL;
         } else if (worklogData.attributes._Account_.value === "ERRORACCOUNT") {
-          el.style.backgroundColor = "#ff0000ff"; // Red background for matching worklogs
+          el.style.backgroundColor = COLOR_ERROR;
         }
       });
     });
@@ -130,7 +153,7 @@
     checkElement();
   }
 
-  // endregion "Execution logic"
+  // endregion "Worklog Processing and Highlighting"
 
   // region "Retrieve Tempo worklog data via XHR interception"
 
@@ -154,7 +177,7 @@
         this.addEventListener("load", function () {
           try {
             const data = JSON.parse(this.responseText);
-            window.tempoWorklogData = data;
+            window.tempoWorklogData.push(...data);
           } catch (e) {
             console.error("[TEMPO] Failed to parse response:", e);
           }
