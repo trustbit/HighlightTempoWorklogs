@@ -18,6 +18,7 @@
   const COLOR_BILLABLE_WITH_BILLABLE_SECONDS = "#efffddff"; // Light green background for billable worklogs with billable seconds
   const COLOR_BILLABLE_NO_BILLABLE_SECONDS = "#fff4ddff"; // Light orange background for billable worklogs without billable seconds
   const COLOR_INTERNAL = "#FFDDDD"; // Light red background for internal worklogs
+  const COLOR_TAT_TEMP = "#ddddffff"; // Light purple background for TAT_TEMP worklogs
   const COLOR_ERROR = "#ff0000ff"; // Red background for error worklogs
 
   // Check if we're in the Tempo iframe
@@ -126,10 +127,12 @@
           worklogData.billableSeconds === 0
         ) {
           el.style.backgroundColor = COLOR_BILLABLE_NO_BILLABLE_SECONDS;
-        } else if (worklogData.attributes._Account_.value.endsWith("SAP_I")) {
-          el.style.backgroundColor = COLOR_INTERNAL;
         } else if (worklogData.attributes._Account_.value === "ERRORACCOUNT") {
           el.style.backgroundColor = COLOR_ERROR;
+        } else if (worklogData.attributes._Account_.value === "TATTEMP") {
+          el.style.backgroundColor = COLOR_TAT_TEMP;
+        } else {
+          el.style.backgroundColor = COLOR_INTERNAL;
         }
       });
     });
@@ -172,12 +175,13 @@
 
       if (
         this._logUrl &&
-        this._logUrl.includes("/rest/tempo-timesheets/4/worklogs/search")
+        this._logUrl.includes("/rest/tempo-timesheets/4/worklogs")
       ) {
         this.addEventListener("load", function () {
           try {
             const data = JSON.parse(this.responseText);
             window.tempoWorklogData.push(...data);
+            console.log(window.tempoWorklogData.length);
           } catch (e) {
             console.error("[TEMPO] Failed to parse response:", e);
           }
