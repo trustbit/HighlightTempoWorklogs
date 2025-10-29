@@ -19,7 +19,7 @@ This helps you quickly visualize which worklogs are billable and which are not.
 ### 🔹 Firefox or Chrome
 
 1. Download and install the **[TamperMonkey](https://www.tampermonkey.net/)** browser extension.
-2. _(Required for Chrome)_ Go to your **[Extensions](chrome://extensions/)**, find TamperMonkey and click **Details**, then go to **Allow User Scripts** and enable
+2. _(Required for Chrome)_ Go to your **Extensions** (chrome://extensions/), find TamperMonkey and click **Details**, then go to **Allow User Scripts** and enable
 3. After installation, click the TamperMonkey icon and select **“Create a new script”**.
 4. Copy the entire code from your local **`script.js`** file and **paste it** into the code editor (replace all existing code).
 5. Save the script and **reload your Atlassian.net** page to see the highlights in action.
