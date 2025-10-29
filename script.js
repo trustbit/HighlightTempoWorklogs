@@ -8,7 +8,6 @@
 // @match        https://app.eu.tempo.io/*
 // @run-at       document-start
 // @grant        unsafeWindow
-// @grant        none
 // ==/UserScript==
 
 (function () {
