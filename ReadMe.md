@@ -16,7 +16,7 @@ This helps you quickly visualize which worklogs are billable and which are not.
 
 ## ⚙️ Installation Guide
 
-### 🔹 Firefox
+### 🔹 Firefox (works 50/50 - no solution found)
 
 1. Download and install the **[TamperMonkey](https://www.tampermonkey.net/)** browser extension.
 2. After installation, click the TamperMonkey icon and select **“Create a new script”**.
