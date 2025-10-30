@@ -16,7 +16,7 @@ This helps you quickly visualize which worklogs are billable and which are not.
 
 ## ⚙️ Installation Guide
 
-### 🔹 Firefox (works 50/50 - no solution found)
+### 🔹 Firefox (works 50/50 - no solution found - issue explaned below)
 
 1. Download and install the **[TamperMonkey](https://www.tampermonkey.net/)** browser extension.
 2. After installation, click the TamperMonkey icon and select **“Create a new script”**.
@@ -50,3 +50,9 @@ You can modify color variables defined at the top of `script.js` to match your p
 - **_Light-Red_:** Worklog account is not billable
 - **_Dark-Red_:** Worklog has the "ErrorAccount" as account => has to be fixed
 - **_Purple_:** Worklog has "TATTemp" as account => likely has to be changed to something else
+
+## FireFox issue
+
+The script will run on some FireFox installations without any issues. On some installations it will never run...
+I believe this is due to some CrossOrigin policy or how the script is sandboxed, since on the installation it does not work, 
+the part of the script that should be in the IFrame is not running in the IFrame, but in a Sandbox and thus can't properly intercept the network traffic of the IFrame
