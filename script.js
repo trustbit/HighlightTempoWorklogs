@@ -3,7 +3,7 @@
 // @namespace    Violentmonkey Scripts
 // @version      1.2
 // @description  Highlights working logs based on billable seconds and internal or customer
-// @author       (you)
+// @author       Armin Schneider
 // @match        *://timetoactgroup.atlassian.net/*
 // @match        https://app.eu.tempo.io/*
 // @run-at       document-start
