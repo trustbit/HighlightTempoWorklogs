@@ -16,16 +16,20 @@ This helps you quickly visualize which worklogs are billable and which are not.
 
 ## ⚙️ Installation Guide
 
-### 🔹 Firefox (works 50/50 - no solution found - issue explaned below)
+### 🔹 Firefox - customizable (works 50/50 - no solution found - issue explaned below)
 
-1. Download and install the **[TamperMonkey](https://www.tampermonkey.net/)** browser extension.
-2. After installation, click the TamperMonkey icon and select **“Create a new script”**.
+1. Download and install the **[ViolentMonkey](https://addons.mozilla.org/en-US/firefox/addon/violentmonkey/)** browser extension.
+2. After installation, click the ViolentMonkey icon and select **“Create a new script”**.
 3. Copy the entire code from your local **`script.js`** file and **paste it** into the code editor (replace all existing code).
 4. Save the script and **reload your Atlassian.net** page to see the highlights in action.
 
+### 🔹 Firefox (just works)
+
+1. Exectue the .xpi file in the "Extension" folder with FireFox (or FireFox based browsers)
+
 ### 🔹 Chrome
 
-1. Download and install the **[TamperMonkey](https://www.tampermonkey.net/)** browser extension.
+1. Download and install the **[TamperMonkey](https://chromewebstore.google.com/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo)** browser extension.
 2. Go to your **Extensions** (chrome://extensions/), find TamperMonkey and click **Details**
 
 - Enable **Allow User Scripts**
@@ -56,3 +60,5 @@ You can modify color variables defined at the top of `script.js` to match your p
 The script will run on some FireFox installations without any issues. On some installations it will never run...
 I believe this is due to some CrossOrigin policy or how the script is sandboxed, since on the installation it does not work, 
 the part of the script that should be in the IFrame is not running in the IFrame, but in a Sandbox and thus can't properly intercept the network traffic of the IFrame
+
+**Fix**: Install the .xpi extension
