@@ -13,12 +13,19 @@
 (function () {
   // region "Variables & Constants"
 
-  // Set highlighting colors
-  const COLOR_BILLABLE_WITH_BILLABLE_SECONDS = "#efffddff"; // Light green background for billable worklogs with billable seconds
-  const COLOR_BILLABLE_NO_BILLABLE_SECONDS = "#fff4ddff"; // Light orange background for billable worklogs without billable seconds
-  const COLOR_INTERNAL = "#FFDDDD"; // Light red background for internal worklogs
-  const COLOR_TAT_TEMP = "#ddddffff"; // Light purple background for TAT_TEMP worklogs
-  const COLOR_ERROR = "#ff0000ff"; // Red background for error worklogs
+  // Detect dark mode
+  const isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+  // Set highlighting colors (light and dark theme variants)
+  const COLOR_BILLABLE_WITH_BILLABLE_SECONDS = isDarkMode
+    ? "#2e5e2e"
+    : "#efffddff"; // Green background for billable worklogs with billable seconds
+  const COLOR_BILLABLE_NO_BILLABLE_SECONDS = isDarkMode
+    ? "#705a2e"
+    : "#fff4ddff"; // Orange/Yellow background for billable worklogs without billable seconds
+  const COLOR_INTERNAL = isDarkMode ? "#703232" : "#FFDDDD"; // "Lighter" Red background for internal worklogs (not billable)
+  const COLOR_TAT_TEMP = isDarkMode ? "#444488" : "#ddddffff"; // Purple background for TAT_TEMP worklogs
+  const COLOR_ERROR = isDarkMode ? "#b33a3a" : "#ff0000ff"; // Red background for error worklogs
 
   // Check if we're in the Tempo iframe
   const isTempoIframe = window.location.href.includes("app.eu.tempo.io");
@@ -180,7 +187,6 @@
           try {
             const data = JSON.parse(this.responseText);
             window.tempoWorklogData.push(...data);
-            console.log(window.tempoWorklogData.length);
           } catch (e) {
             console.error("[TEMPO] Failed to parse response:", e);
           }
