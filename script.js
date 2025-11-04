@@ -166,6 +166,26 @@
 
   // region "Retrieve Tempo worklog data via XHR interception"
 
+  function upsertWorklogs(data) {
+    // Ensure data is always an array
+    const worklogs = Array.isArray(data) ? data : [data];
+
+    for (const wl of worklogs) {
+      const index = window.tempoWorklogData.findIndex(
+        (existing) => existing.tempoWorklogId === wl.tempoWorklogId
+      );
+
+      if (index !== -1) {
+        // Update existing worklog
+        window.tempoWorklogData[index] = wl;
+      } else {
+        // Add new worklog
+        window.tempoWorklogData.push(wl);
+      }
+    }
+    onWeekChangedInIframe();
+  }
+
   // Only set up XHR interception in the Tempo iframe
   if (isTempoIframe) {
     // Intercept XMLHttpRequest
@@ -186,7 +206,7 @@
         this.addEventListener("load", function () {
           try {
             const data = JSON.parse(this.responseText);
-            window.tempoWorklogData.push(...data);
+            upsertWorklogs(data);
           } catch (e) {
             console.error("[TEMPO] Failed to parse response:", e);
           }
