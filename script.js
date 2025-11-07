@@ -26,6 +26,7 @@
   const COLOR_INTERNAL = isDarkMode ? "#703232" : "#FFDDDD"; // "Lighter" Red background for internal worklogs (not billable)
   const COLOR_TAT_TEMP = isDarkMode ? "#444488" : "#ddddffff"; // Purple background for TAT_TEMP worklogs
   const COLOR_ERROR = isDarkMode ? "#b33a3a" : "#ff0000ff"; // Red background for error worklogs
+  const COLOR_LS = isDarkMode ? "#336b8a" : "#d6efff"; // Light Blue background for LS worklogs
 
   // Check if we're in the Tempo iframe
   const isTempoIframe = window.location.href.includes("app.eu.tempo.io");
@@ -137,8 +138,47 @@
           el.style.backgroundColor = COLOR_ERROR;
         } else if (worklogData.attributes._Account_.value === "TATTEMP") {
           el.style.backgroundColor = COLOR_TAT_TEMP;
+        } else if (
+          //Will break sooner or later
+          worklogData.attributes._Account_.value.includes("TATINT.1.2")
+        ) {
+          //CAUTION: UGLY CODE
+          el.style.backgroundColor = COLOR_LS;
         } else {
           el.style.backgroundColor = COLOR_INTERNAL;
+        }
+
+        const header = el.querySelector("div[title]");
+
+        if (header && header.title.trim() === header.textContent.trim()) {
+          Object.assign(header.style, {
+            whiteSpace: "nowrap",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            display: "block",
+          });
+        }
+
+        const existingCommentSpan = el.querySelector(
+          'div[name="tempoCardComment"]'
+        );
+
+        if (!existingCommentSpan) {
+          // Select the <a> element inside the div
+          const link = el.querySelector(
+            'div a[href^="https://timetoactgroup.atlassian.net/browse/"]'
+          );
+
+          if (link) {
+            // Create a new <span> element
+            const span = document.createElement("span");
+            span.textContent = worklogData.comment;
+
+            // Replace the <a> element with the <span>
+            link.replaceWith(span);
+          }
+        } else {
+          existingCommentSpan.style.opacity = "1.0";
         }
       });
     });
