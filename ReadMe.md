@@ -53,3 +53,4 @@ Click on the addon in your Toolbar and go to the settings page. Here you can adj
 - **_Light-Red_:** Worklog account is not billable
 - **_Dark-Red_:** Worklog has the "ErrorAccount" as account => has to be fixed
 - **_Purple_:** Worklog has "TATTemp" as account => likely has to be changed to something else
+- **_Light-Blue_:** Worklog is likely a "Learning" worklog
