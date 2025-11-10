@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Tempo Highlighter Settings</title>
+    <style>
+      body {
+        font-family: system-ui, sans-serif;
+        padding: 20px;
+      }
+      .toggle {
+        margin: 15px 0;
+      }
+      .toggle label {
+        margin-right: 10px;
+        cursor: pointer;
+      }
+      .toggle input[type="checkbox"] {
+        cursor: pointer;
+      }
+      .color-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 8px 0;
+      }
+      input[type="color"] {
+        width: 50px;
+        height: 25px;
+      }
+      button {
+        margin: 10px 5px 0 0;
+        padding: 8px 16px;
+        cursor: pointer;
+      }
+      #reset {
+        background-color: #f44336;
+        color: white;
+        border: none;
+        border-radius: 4px;
+      }
+      #reset:hover {
+        background-color: #d32f2f;
+      }
+      #save {
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+      }
+      #save:hover {
+        background-color: #45a049;
+      }
+    </style>
+  </head>
+  <body>
+    <div style="width: 40%; margin: auto;">
+    <h1>Tempo Highlighter Settings</h1>
+
+    <div class="toggle">
+      <label for="darkModeToggle">
+        Dark mode
+        <input type="checkbox" id="darkModeToggle" />
+      </label>
+      <span id="modeIndicator"></span>
+    </div>
+
+    <div id="colorInputs">
+      <div class="color-row">
+        <label>Billable (with seconds)</label>
+        <input type="color" id="COLOR_BILLABLE_WITH_BILLABLE_SECONDS" />
+      </div>
+      <div class="color-row">
+        <label>Billable (no seconds)</label>
+        <input type="color" id="COLOR_BILLABLE_NO_BILLABLE_SECONDS" />
+      </div>
+      <div class="color-row">
+        <label>Internal</label>
+        <input type="color" id="COLOR_INTERNAL" />
+      </div>
+      <div class="color-row">
+        <label>TAT Temp</label>
+        <input type="color" id="COLOR_TAT_TEMP" />
+      </div>
+      <div class="color-row">
+        <label>Error</label>
+        <input type="color" id="COLOR_ERROR" />
+      </div>
+      <div class="color-row">
+        <label>Learning</label>
+        <input type="color" id="COLOR_LS" />
+      </div>
+    </div>
+
+    <button id="reset">Reset to Defaults</button>
+
+    <script src="options.js"></script>
+  </body>
+  </div>
+</html>

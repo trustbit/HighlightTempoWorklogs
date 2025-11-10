@@ -1,14 +1,23 @@
 {
   "manifest_version": 3,
   "name": "Jira Worklog Logger",
-  "version": "1.0",
+  "version": "1.1",
   "description": "Logs Tempo worklog network requests for debugging.",
-  "permissions": ["webRequest"],
+  "permissions": ["webRequest", "storage", "activeTab", "scripting"],
   "host_permissions": [
     "*://timetoactgroup.atlassian.net/*",
     "https://app.eu.tempo.io/*"
   ],
   "content_scripts": [
+    {
+      "matches": [
+        "*://timetoactgroup.atlassian.net/*",
+        "https://app.eu.tempo.io/*"
+      ],
+      "js": ["content-bridge.js"],
+      "run_at": "document_start",
+      "all_frames": true
+    },
     {
       "matches": [
         "*://timetoactgroup.atlassian.net/*",
@@ -20,6 +29,13 @@
       "all_frames": true
     }
   ],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true
+  },
   "browser_specific_settings": {
     "gecko": {
       "id": "tempo-highlighter@example.com",
