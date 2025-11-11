@@ -188,7 +188,6 @@
           //Will break sooner or later
           worklogData.attributes._Account_.value.includes("TATINT.1.2")
         ) {
-          //CAUTION: UGLY CODE
           el.style.backgroundColor = COLOR_LS;
         } else {
           el.style.backgroundColor = COLOR_INTERNAL;
@@ -211,22 +210,114 @@
 
         if (!existingCommentSpan) {
           // Select the <a> element inside the div
-          const link = el.querySelector(
+          var link = el.querySelector(
             'div a[href^="https://timetoactgroup.atlassian.net/browse/"]'
           );
 
           if (link) {
             // Create a new <span> element
             const span = document.createElement("span");
+
             span.textContent = worklogData.comment;
+            span.id = "customCommentSpan" + worklogId;
+            span.title = link.href;
 
             // Replace the <a> element with the <span>
             link.replaceWith(span);
           }
         } else {
           existingCommentSpan.style.opacity = "1.0";
+          const comment = document.getElementById(
+            "customCommentSpan" + worklogId
+          );
+
+          if (comment) {
+            const commentParent = comment.parentElement;
+
+            const link = document.createElement("a");
+
+            link.href = comment.title + commentParent.title;
+            link.textContent = commentParent.title;
+            link.target = "_blank";
+
+            // Replace the <a> element with the <span>
+            comment.replaceWith(link);
+          }
         }
       });
+      changeWorklogInformation(elements);
+    });
+  }
+
+  function changeWorklogInformation(elements) {
+    elements.forEach((el) => {
+      const worklogId = el.id.replace("WORKLOG-", "");
+
+      const worklogData =
+        window.tempoWorklogData &&
+        window.tempoWorklogData.find(
+          (wl) => wl.originId.toString() === worklogId
+        );
+
+      const header = el.querySelector("div[title]");
+
+      if (header && header.title.trim() === header.textContent.trim()) {
+        Object.assign(header.style, {
+          whiteSpace: "nowrap",
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+          display: "block",
+        });
+      }
+
+      const existingCommentSpan = el.querySelector(
+        'div[name="tempoCardComment"]'
+      );
+
+      if (!existingCommentSpan) {
+        // Select the <a> element inside the div
+        var link = el.querySelector(
+          'div a[href^="https://timetoactgroup.atlassian.net/browse/"]'
+        );
+
+        console.log("1");
+        console.log(link);
+
+        if (link) {
+          console.log("1.1");
+          // Create a new <span> element
+          const span = document.createElement("span");
+
+          span.textContent = worklogData.comment;
+          span.id = "customCommentSpan" + worklogId;
+          span.title = link.href;
+
+          // Replace the <a> element with the <span>
+          link.replaceWith(span);
+        }
+      } else {
+        existingCommentSpan.style.opacity = "1.0";
+        const comment = document.getElementById(
+          "customCommentSpan" + worklogId
+        );
+
+        console.log("2");
+        console.log(comment);
+
+        if (comment) {
+          console.log("2.1");
+          const commentParent = comment.parentElement;
+
+          const link = document.createElement("a");
+
+          link.href = comment.title + commentParent.title;
+          link.textContent = commentParent.title;
+          link.target = "_blank";
+
+          // Replace the <a> element with the <span>
+          comment.replaceWith(link);
+        }
+      }
     });
   }
 
