@@ -7,12 +7,17 @@
 
 The **Tempo Worklog Highlighter** automatically highlights your worklogs in Atlassian Tempo depending on:
 
-- The **billable state** (whether the SAP account is billable)
+- The **accout** that has been used in the worklog
 - The **billable time** recorded
 
-This helps you quickly visualize which worklogs are billable and which are not.
+This helps you quickly visualize which worklogs are:
 
----
+- Billable with billable time
+- Billable without billable time
+- Likely "learning" time
+- Using "TATTEMP" as an account
+- Using "ERRORACCOUNT" as an account
+- Not billable
 
 ## ⚙️ Installation Guide
 
@@ -32,8 +37,6 @@ This helps you quickly visualize which worklogs are billable and which are not.
 4. Copy the entire code from your local **`script.js`** file and **paste it** into the code editor (replace all existing code).
 5. Save the script and **reload your Atlassian.net** page to see the highlights in action.
 
----
-
 ## 🎨 Customization
 
 ### TamperMonkey installations
@@ -44,8 +47,6 @@ You can modify color variables defined at the top of `script.js` to match your p
 
 Click on the addon in your Toolbar and go to the settings page. Here you can adjust your preferred colors.
 
----
-
 ## 🧩 Default color meanings:
 
 - **_Green_:** Worklog account is billable and has billable time
@@ -54,6 +55,11 @@ Click on the addon in your Toolbar and go to the settings page. Here you can adj
 - **_Dark-Red_:** Worklog has the "ErrorAccount" as account => has to be fixed
 - **_Purple_:** Worklog has "TATTemp" as account => likely has to be changed to something else
 - **_Light-Blue_:** Worklog is likely a "Learning" worklog
+
+## Technical Details
+
+FireFox is an Addon, because ~50% of FireFox browsers where too strict for the script to work properly. I did not find a solution to that so I converted the script to an Addon.
+Since the colors should be customizable, I added a settings page in the extension.
 
 ## Bug-Reports
 
