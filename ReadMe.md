@@ -19,6 +19,8 @@ This helps you quickly visualize which worklogs are:
 - Using "ERRORACCOUNT" as an account
 - Not billable
 
+It also helps you to keep track of what you did in worklogs that are too small to display their description text by replacing the project key (e.g.: "TGA1234-12") with the description. This will likely affect logs that are 1h or less but above 15m, since these are too small.
+
 ## ⚙️ Installation Guide
 
 ### 🔹 Firefox
