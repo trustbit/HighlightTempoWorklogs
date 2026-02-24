@@ -192,6 +192,9 @@
         commentSelect.style.display = "block";
         commentSelect.style.marginBottom = "6px";
         commentSelect.style.padding = "8px";
+        commentSelect.style.width = "100%";
+        commentSelect.style.maxWidth = "500px";
+        commentSelect.style.textOverflow = "ellipsis";
 
         const placeholder = document.createElement("option");
         placeholder.value = "";
