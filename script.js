@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Tempo Worklog Highlighter
 // @namespace    Violentmonkey Scripts
-// @version      1.3.1
+// @version      1.3.2
 // @description  Highlights working logs based on billable seconds and internal or customer
 // @author       Armin Schneider
 // @match        *://timetoactgroup.atlassian.net/*
