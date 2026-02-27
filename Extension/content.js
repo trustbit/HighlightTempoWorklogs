@@ -117,7 +117,7 @@
         const PAGE_KEY = "tempo_comment_cache";
         const MAX_AGE_MS =
             DESCRIPTION_SUGGESTION_STORAGE_DAYS * 24 * 60 * 60 * 1000; // 30 days
-        
+
         function safeParse(raw) {
             try {
                 return raw ? JSON.parse(raw) : [];
@@ -126,7 +126,7 @@
                 return [];
             }
         }
-        
+
         function loadCache() {
             try {
                 const raw = localStorage.getItem(PAGE_KEY);
@@ -136,7 +136,7 @@
                 return [];
             }
         }
-        
+
         function saveCache(entries) {
             try {
                 localStorage.setItem(PAGE_KEY, JSON.stringify(entries));
@@ -144,7 +144,7 @@
                 console.warn("[tempo-cache] save failed:", e);
             }
         }
-        
+
         function clearCache() {
             try {
                 localStorage.setItem(PAGE_KEY, JSON.stringify([]));
@@ -154,10 +154,10 @@
             }
             return true;
         }
-        
+
         // Attach to the API and create a console-friendly alias
         window.clearTempoCommentCache = clearCache;
-        
+
         function purgeOldEntries(entries) {
             const cutoff = Date.now() - MAX_AGE_MS;
             const filtered = entries.filter((e) => {
@@ -170,17 +170,17 @@
             }
             return filtered;
         }
-        
+
         // Convenience method: add a comment (increment count if exists)
         function addTimeEntryComment(comment, projectNumber) {
             if (!comment || typeof comment !== "string") return null;
             const normalized = comment.trim();
             if (normalized.length === 0) return null;
-            
+
             const now = Date.now();
             const entries = loadCache();
             const idx = entries.findIndex((e) => e.comment === normalized);
-            
+
             let entry;
             if (idx !== -1) {
                 entry = entries[idx];
@@ -196,11 +196,11 @@
                 };
                 entries.push(entry);
             }
-            
+
             saveCache(entries);
             return entry;
         }
-        
+
         // Convenience method: list all comments ordered by count (desc)
         function listTimeEntryComments() {
             const entries = loadCache();
@@ -212,28 +212,28 @@
                 return (b.lastUsed || 0) - (a.lastUsed || 0);
             });
         }
-        
+
         // Purge on load
         saveCache(purgeOldEntries(loadCache()));
-        
+
         function addCommentEntrySelect(issueInputField) {
             if (!issueInputField) {
                 console.error("[tempo-addCommentEntrySelect] no input field found");
                 return;
             }
-            
+
             // Create new select element for current project
             if (document.getElementById("tempoCommentSelect")) {
                 document.getElementById("tempoCommentSelect").remove();
             }
-            
+
             const worklogCommentField = document.getElementById("commentField");
             const issueInput = issueInputField.value.trim();
             const projectNumber = issueInput.substring(0, issueInput.indexOf(" "));
-            
+
             if (worklogCommentField && projectNumber) {
                 worklogCommentField.parentElement.style.flexDirection = "column";
-                
+
                 const commentSelect = document.createElement("select");
                 commentSelect.id = "tempoCommentSelect";
                 commentSelect.style.display = "block";
@@ -242,14 +242,14 @@
                 commentSelect.style.width = "100%";
                 commentSelect.style.maxWidth = "500px";
                 commentSelect.style.textOverflow = "ellipsis";
-                
+
                 const placeholder = document.createElement("option");
                 placeholder.value = "";
                 placeholder.textContent = "Select recent comment";
                 placeholder.disabled = true;
                 placeholder.selected = true;
                 commentSelect.appendChild(placeholder);
-                
+
                 listTimeEntryComments()
                     .filter((entry) => {
                         return entry.projectNumber.startsWith(projectNumber);
@@ -260,14 +260,14 @@
                         opt.textContent = `${e.comment} (${e.count || 0})`;
                         commentSelect.appendChild(opt);
                     });
-                
+
                 if (worklogCommentField.parentElement) {
                     worklogCommentField.parentElement.insertBefore(
                         commentSelect,
                         worklogCommentField
                     );
                 }
-                
+
                 commentSelect.addEventListener("change", () => {
                     // Shenanigans to properly set the value and trigger any listeners for React
                     const setter = Object.getOwnPropertyDescriptor(
@@ -275,12 +275,12 @@
                         "value"
                     ).set;
                     setter.call(worklogCommentField, commentSelect.value);
-                    
+
                     worklogCommentField.dispatchEvent(
                         new Event("input", {bubbles: true, cancelable: true})
                     );
                 });
-                
+
                 // time log get's updated
                 document.getElementById("logTimeBtn").addEventListener("click", () => {
                     if (
@@ -297,14 +297,14 @@
                 });
             }
         }
-        
+
         function callOnValueChanged(elementId, callback) {
             const checkContent = () => {
                 const el = document.getElementById(elementId);
-                
+
                 if (el && el.value && el.value.trim().length > 0) {
                     const value = el.value.trim();
-                    
+
                     if (!el.__last_value) {
                         callback(el);
                     } else if (value !== el.__last_value) {
@@ -313,17 +313,17 @@
                     el.__last_value = value;
                 }
             };
-            
+
             setInterval(checkContent, 50);
         }
-        
+
         function setupModalObserver() {
             waitForElement(
                 "#form-issue-input",
                 (elements) => {
                     if (elements && elements.length) {
-                        // We need to do a poll approach, as no listener seems to work reliably here
-                        // This might be to the reason that there is always a new input field created
+                        // We need to do a poll approach, as no listener seems to work reliably here 
+                        // This might be to the reason that there is always a new input field created 
                         callOnValueChanged("form-issue-input", () => {
                             addCommentEntrySelect(
                                 document.getElementById("form-issue-input")
@@ -337,7 +337,7 @@
 
         setupModalObserver();
     }
-    
+
     // endregion "Time Entry Comment Caching"
     // Only listen for location changes in the Tempo iframe
     if (IS_TEMPORAL_IFRAME) {
